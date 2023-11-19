@@ -31,7 +31,7 @@
    <string>Voting Menu</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="title_label">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -58,8 +58,8 @@
    <widget class="QLabel" name="halloween_image">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>80</y>
+      <x>50</x>
+      <y>100</y>
       <width>171</width>
       <height>191</height>
      </rect>
@@ -77,8 +77,8 @@
    <widget class="QLabel" name="christmas_image">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>60</y>
+      <x>440</x>
+      <y>90</y>
       <width>161</width>
       <height>211</height>
      </rect>
@@ -96,9 +96,9 @@
    <widget class="QLabel" name="halloween_label">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>280</y>
-      <width>91</width>
+      <x>90</x>
+      <y>310</y>
+      <width>111</width>
       <height>21</height>
      </rect>
     </property>
@@ -114,9 +114,9 @@
    <widget class="QPushButton" name="vote_button">
     <property name="geometry">
      <rect>
-      <x>175</x>
+      <x>220</x>
       <y>440</y>
-      <width>91</width>
+      <width>131</width>
       <height>41</height>
      </rect>
     </property>
@@ -127,9 +127,9 @@
    <widget class="QLabel" name="christmas_label">
     <property name="geometry">
      <rect>
-      <x>450</x>
-      <y>281</y>
-      <width>91</width>
+      <x>480</x>
+      <y>310</y>
+      <width>101</width>
       <height>21</height>
      </rect>
     </property>
@@ -145,8 +145,8 @@
    <widget class="QLabel" name="or_label">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>280</y>
+      <x>290</x>
+      <y>310</y>
       <width>60</width>
       <height>21</height>
      </rect>
@@ -168,31 +168,21 @@
    <widget class="QLineEdit" name="user_input">
     <property name="geometry">
      <rect>
-      <x>15</x>
-      <y>450</y>
-      <width>151</width>
-      <height>21</height>
+      <x>10</x>
+      <y>440</y>
+      <width>191</width>
+      <height>41</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QLabel" name="typebelow_label">
-    <property name="geometry">
-     <rect>
-      <x>15</x>
-      <y>420</y>
-      <width>91</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Type Below:</string>
+    <property name="placeholderText">
+     <string>Cast your vote here!</string>
     </property>
    </widget>
    <widget class="QPushButton" name="reset_button">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
+      <x>520</x>
+      <y>440</y>
       <width>131</width>
       <height>41</height>
      </rect>
@@ -212,8 +202,8 @@
    <widget class="QLabel" name="vote_message_label">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>370</y>
+      <x>30</x>
+      <y>350</y>
       <width>171</width>
       <height>61</height>
      </rect>
@@ -225,9 +215,9 @@
    <widget class="QPushButton" name="results_button">
     <property name="geometry">
      <rect>
-      <x>275</x>
+      <x>370</x>
       <y>440</y>
-      <width>151</width>
+      <width>131</width>
       <height>41</height>
      </rect>
     </property>
@@ -238,14 +228,33 @@
    <widget class="QLabel" name="results_label">
     <property name="geometry">
      <rect>
-      <x>430</x>
+      <x>380</x>
       <y>330</y>
       <width>241</width>
-      <height>151</height>
+      <height>101</height>
      </rect>
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="instructions_label">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>190</y>
+      <width>191</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Vote for your favorite holiday! Type the name of the holiday you like the most and click the &quot;VOTE&quot; button to cast your vote.</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
@@ -255,12 +264,18 @@
      <x>0</x>
      <y>0</y>
      <width>680</width>
-     <height>24</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>user_input</tabstop>
+  <tabstop>vote_button</tabstop>
+  <tabstop>results_button</tabstop>
+  <tabstop>reset_button</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
