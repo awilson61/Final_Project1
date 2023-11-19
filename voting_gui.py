@@ -73,7 +73,7 @@ class Ui_MainWindow(object):
         self.typebelow_label.setGeometry(QtCore.QRect(15, 420, 91, 21))
         self.typebelow_label.setObjectName("typebelow_label")
         self.reset_button = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.reset_button.setGeometry(QtCore.QRect(0, 10, 131, 41))
+        self.reset_button.setGeometry(QtCore.QRect(10, 10, 131, 41))
         font = QtGui.QFont()
         font.setFamily("Tiro Bangla")
         self.reset_button.setFont(font)
