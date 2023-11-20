@@ -31,7 +31,7 @@
    <string>Voting Menu</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="title_label">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -49,20 +49,29 @@
      </font>
     </property>
     <property name="text">
-     <string>Voting Menu - Christmas or Halloween</string>
+     <string>Voting Menu - Select a Poll!</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="halloween_image">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>10</x>
       <y>80</y>
       <width>171</width>
       <height>191</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
     </property>
     <property name="text">
      <string/>
@@ -73,11 +82,14 @@
     <property name="scaledContents">
      <bool>true</bool>
     </property>
+    <property name="textInteractionFlags">
+     <set>Qt::LinksAccessibleByMouse</set>
+    </property>
    </widget>
    <widget class="QLabel" name="christmas_image">
     <property name="geometry">
      <rect>
-      <x>400</x>
+      <x>300</x>
       <y>60</y>
       <width>161</width>
       <height>211</height>
@@ -93,10 +105,10 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="halloween_label">
+   <widget class="QLabel" name="left_label">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>60</x>
       <y>280</y>
       <width>91</width>
       <height>21</height>
@@ -108,7 +120,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Halloween</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="vote_button">
@@ -124,10 +136,10 @@
      <string>VOTE</string>
     </property>
    </widget>
-   <widget class="QLabel" name="christmas_label">
+   <widget class="QLabel" name="right_label">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>350</x>
       <y>281</y>
       <width>91</width>
       <height>21</height>
@@ -139,13 +151,13 @@
      </font>
     </property>
     <property name="text">
-     <string>Christmas</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="or_label">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>210</x>
       <y>280</y>
       <width>60</width>
       <height>21</height>
@@ -239,13 +251,134 @@
     <property name="geometry">
      <rect>
       <x>430</x>
-      <y>330</y>
+      <y>320</y>
       <width>241</width>
-      <height>151</height>
+      <height>161</height>
      </rect>
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="exception_label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>330</y>
+      <width>311</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="holiday_button">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>70</y>
+      <width>191</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Holidays</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="season_button">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>100</y>
+      <width>191</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Seasons</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="sun_image">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>191</width>
+      <height>181</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sun.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::LinksAccessibleByMouse</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="snowman_image">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>60</y>
+      <width>181</width>
+      <height>211</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>snowman.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="poll_image">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>110</y>
+      <width>271</width>
+      <height>241</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>poll.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>50</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Select Below:</string>
     </property>
    </widget>
   </widget>
