@@ -84,7 +84,7 @@ class Logic(QMainWindow, Ui_MainWindow):
 
     def results(self) -> None:
         if self.holiday_button.isChecked():
-            #FIXME
+            #FIXME put into gui
             print('merry christmas!')
         if self.season_button.isChecked():
             #FIXME
