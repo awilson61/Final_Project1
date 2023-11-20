@@ -141,7 +141,7 @@ class Logic(QMainWindow, Ui_MainWindow):
 
     def results(self) -> None:
         '''
-        This function displays the votes each candidate, the votes they have
+        This function displays the votes each candidate, the votes they
         have accrued, and the outcome.
         '''
         outcome = self.determine_outcome()
