@@ -135,6 +135,11 @@ class Ui_MainWindow(object):
         self.label = QtWidgets.QLabel(parent=self.centralwidget)
         self.label.setGeometry(QtCore.QRect(550, 50, 121, 16))
         self.label.setObjectName("label")
+        self.instructions_label = QtWidgets.QLabel(parent=self.centralwidget)
+        self.instructions_label.setGeometry(QtCore.QRect(480, 160, 191, 91))
+        self.instructions_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignTop)
+        self.instructions_label.setWordWrap(True)
+        self.instructions_label.setObjectName("instructions_label")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 680, 24))
@@ -159,13 +164,6 @@ class Ui_MainWindow(object):
         self.holiday_button.setText(_translate("MainWindow", "Holidays"))
         self.season_button.setText(_translate("MainWindow", "Seasons"))
         self.label.setText(_translate("MainWindow", "Select Below:"))
+        self.instructions_label.setText(_translate("MainWindow", "Welcome to the voting menu! Select the options above and start voting!"))
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec())
