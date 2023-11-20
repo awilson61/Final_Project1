@@ -31,6 +31,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.title_label.setText(self.TITLE + 'Halloween or Christmas')
         self.halloween_image.show()
         self.christmas_image.show()
+        self.exception_label.clear()
         self.snowman_image.hide()
         self.sun_image.hide()
         self.poll_image.hide()
@@ -40,6 +41,7 @@ class Logic(QMainWindow, Ui_MainWindow):
 
     def seasons_poll(self) -> None:
         self.title_label.setText(self.TITLE + 'Summer or Winter')
+        self.exception_label.clear()
         self.halloween_image.hide()
         self.christmas_image.hide()
         self.poll_image.hide()
