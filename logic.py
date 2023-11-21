@@ -51,6 +51,8 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.or_label.show()
         self.left_label.setText('Halloween')
         self.right_label.setText('Christmas')
+        self.results_label.setText('')
+        self.exception_label.setText("")
         self.load_votes()
 
     def seasons_poll(self) -> None:
@@ -68,6 +70,8 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.or_label.show()
         self.left_label.setText('Summer')
         self.right_label.setText('Winter')
+        self.results_label.setText('')
+        self.exception_label.setText("")
         self.load_votes()
 
     def clear(self) -> None:
@@ -105,6 +109,8 @@ class Logic(QMainWindow, Ui_MainWindow):
         except:
             self.exception_label.setText("Please choose from an item in the poll!")
             self.user_input.clear()
+        else:
+            self.exception_label.setText("")
         self.user_input.clear()
         self.user_input.setFocus()
 
@@ -182,6 +188,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         print("votes: ", poll_dictionary)
         self.user_input.setText('')
         self.user_input.setFocus()
+        self.exception_label.setText("")
 
 
     def load_votes(self) -> None:

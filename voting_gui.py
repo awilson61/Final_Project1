@@ -49,7 +49,7 @@ class Ui_MainWindow(object):
         self.christmas_image.setScaledContents(True)
         self.christmas_image.setObjectName("christmas_image")
         self.left_label = QtWidgets.QLabel(parent=self.centralwidget)
-        self.left_label.setGeometry(QtCore.QRect(60, 280, 91, 21))
+        self.left_label.setGeometry(QtCore.QRect(60, 280, 131, 21))
         font = QtGui.QFont()
         font.setPointSize(15)
         self.left_label.setFont(font)
@@ -59,7 +59,7 @@ class Ui_MainWindow(object):
         self.vote_button.setGeometry(QtCore.QRect(175, 440, 91, 41))
         self.vote_button.setObjectName("vote_button")
         self.right_label = QtWidgets.QLabel(parent=self.centralwidget)
-        self.right_label.setGeometry(QtCore.QRect(350, 281, 91, 21))
+        self.right_label.setGeometry(QtCore.QRect(350, 281, 131, 21))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.right_label.setFont(font)
@@ -81,7 +81,7 @@ class Ui_MainWindow(object):
         self.typebelow_label.setGeometry(QtCore.QRect(15, 420, 91, 21))
         self.typebelow_label.setObjectName("typebelow_label")
         self.reset_button = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.reset_button.setGeometry(QtCore.QRect(10, 10, 131, 41))
+        self.reset_button.setGeometry(QtCore.QRect(20, 10, 101, 41))
         font = QtGui.QFont()
         font.setFamily("Tiro Bangla")
         self.reset_button.setFont(font)
@@ -151,11 +151,11 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        MainWindow.setTabOrder(self.season_button, self.holiday_button)
-        MainWindow.setTabOrder(self.holiday_button, self.user_input)
+        MainWindow.setTabOrder(self.reset_button, self.holiday_button)
+        MainWindow.setTabOrder(self.holiday_button, self.season_button)
+        MainWindow.setTabOrder(self.season_button, self.user_input)
         MainWindow.setTabOrder(self.user_input, self.vote_button)
         MainWindow.setTabOrder(self.vote_button, self.results_button)
-        MainWindow.setTabOrder(self.results_button, self.reset_button)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
