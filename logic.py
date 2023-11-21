@@ -81,6 +81,10 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.right_label.setText('Winter')
         self.results_label.setText('')
         self.exception_label.setText("")
+        self.halloween_image.hide()
+        self.christmas_image.hide()
+        self.snowman_image.show()
+        self.sun_image.show()
         self.load_votes()
 
     def clear(self) -> None:
@@ -125,6 +129,7 @@ class Logic(QMainWindow, Ui_MainWindow):
             self.user_input.clear()
         else:
             self.exception_label.setText("")
+        self.results_label.setText('')
         self.user_input.clear()
         self.user_input.setFocus()
 
@@ -192,13 +197,6 @@ class Logic(QMainWindow, Ui_MainWindow):
             self.exception_label.clear()
         else:
             return None
-        for key, votes in poll_dictionary.items():
-            results_text += f'{key} has {votes} votes.\n'
-        if outcome == 'Tie':
-            results_text += "It's a tie!"
-        else:
-            results_text += f'{outcome} wins!'
-            self.results_label.setText('Choose a poll.')
         if self.holiday_button.isChecked() or self.season_button.isChecked():
             for key, votes in poll_dictionary.items():
                 results_text += f'{key} has {votes} votes.\n'
@@ -232,3 +230,5 @@ class Logic(QMainWindow, Ui_MainWindow):
                         poll_dictionary[option] = int(count)
         except Exception as e:
             print(f"Error loading votes: {e}")
+
+
