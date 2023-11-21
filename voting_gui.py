@@ -21,9 +21,9 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.title_label = QtWidgets.QLabel(parent=self.centralwidget)
-        self.title_label.setGeometry(QtCore.QRect(130, 15, 421, 41))
+        self.title_label.setGeometry(QtCore.QRect(140, 15, 441, 41))
         font = QtGui.QFont()
-        font.setPointSize(18)
+        font.setPointSize(16)
         font.setBold(False)
         font.setUnderline(False)
         font.setWeight(50)
@@ -95,7 +95,7 @@ class Ui_MainWindow(object):
         self.results_button.setGeometry(QtCore.QRect(275, 440, 151, 41))
         self.results_button.setObjectName("results_button")
         self.results_label = QtWidgets.QLabel(parent=self.centralwidget)
-        self.results_label.setGeometry(QtCore.QRect(430, 320, 241, 161))
+        self.results_label.setGeometry(QtCore.QRect(440, 320, 231, 161))
         self.results_label.setText("")
         self.results_label.setObjectName("results_label")
         self.exception_label = QtWidgets.QLabel(parent=self.centralwidget)
@@ -167,3 +167,11 @@ class Ui_MainWindow(object):
         self.instructions_label.setText(_translate("MainWindow", "Welcome to the voting menu! Select the options above and start voting!"))
 
 
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec())
