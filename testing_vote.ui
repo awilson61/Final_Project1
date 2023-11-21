@@ -110,7 +110,7 @@
      <rect>
       <x>60</x>
       <y>280</y>
-      <width>91</width>
+      <width>131</width>
       <height>21</height>
      </rect>
     </property>
@@ -141,7 +141,7 @@
      <rect>
       <x>350</x>
       <y>281</y>
-      <width>91</width>
+      <width>131</width>
       <height>21</height>
      </rect>
     </property>
@@ -203,9 +203,9 @@
    <widget class="QPushButton" name="reset_button">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>20</x>
       <y>10</y>
-      <width>131</width>
+      <width>101</width>
       <height>41</height>
      </rect>
     </property>
@@ -407,12 +407,20 @@
      <x>0</x>
      <y>0</y>
      <width>680</width>
-     <height>24</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>reset_button</tabstop>
+  <tabstop>holiday_button</tabstop>
+  <tabstop>season_button</tabstop>
+  <tabstop>user_input</tabstop>
+  <tabstop>vote_button</tabstop>
+  <tabstop>results_button</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
