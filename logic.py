@@ -41,10 +41,10 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.season_file = 'season_votes.txt'
 
     def when_poll_changes(self) -> None:
-        """
+        '''
         This function is supposed to reduce repetition in
         the code when you switch between polls.
-        """
+        '''
         self.poll_image.hide()
         self.or_label.show()
         self.user_input.show()
@@ -86,11 +86,13 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.snowman_image.show()
         self.sun_image.show()
         self.load_votes()
+        self.when_poll_changes()
 
     def clear(self) -> None:
         '''
         This function ensures that the dictionaries and the vote files are reset.
         '''
+        # FIXME I'm not sure what these 5 lines of code are supposed to do.
         self.snowman_image.show()
         self.sun_image.show()
         self.halloween_image.hide()
