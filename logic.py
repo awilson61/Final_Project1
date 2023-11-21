@@ -21,6 +21,11 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.snowman_image.hide()
         self.sun_image.hide()
         # These determine what happens when buttons are clicked.
+        self.user_input.hide()
+        self.vote_button.hide()
+        self.results_button.hide()
+        self.typebelow_label.hide()
+        # When buttons are clicked
         self.reset_button.clicked.connect(lambda: self.clear())
         self.vote_button.clicked.connect(lambda: self.vote())
         self.results_button.clicked.connect(lambda: self.results())
@@ -35,39 +40,43 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.holiday_file = 'holiday_votes.txt'
         self.season_file = 'season_votes.txt'
 
+    def when_poll_changes(self) -> None:
+        """
+        This function is supposed to reduce repetition in
+        the code when you switch between polls.
+        """
+        self.poll_image.hide()
+        self.or_label.show()
+        self.user_input.show()
+        self.vote_button.show()
+        self.results_button.show()
+        self.typebelow_label.show()
+        self.exception_label.clear()
+        self.user_input.clear()
+        self.results_label.clear()
+        self.load_votes()
 
     def holiday_poll(self) -> None:
         '''
         This function changes the UI to permit voting for holidays.
         '''
         self.title_label.setText(self.TITLE + 'Halloween or Christmas')
-        self.halloween_image.show()
-        self.christmas_image.show()
-        self.user_input.clear()
-        self.exception_label.clear()
-        self.snowman_image.hide()
-        self.sun_image.hide()
-        self.poll_image.hide()
-        self.or_label.show()
         self.left_label.setText('Halloween')
         self.right_label.setText('Christmas')
         self.results_label.setText('')
         self.exception_label.setText("")
+        self.halloween_image.show()
+        self.christmas_image.show()
+        self.snowman_image.hide()
+        self.sun_image.hide()
         self.load_votes()
+        self.when_poll_changes()
 
     def seasons_poll(self) -> None:
         '''
         This function changes the UI to permit voting for seasons.
         '''
         self.title_label.setText(self.TITLE + 'Summer or Winter')
-        self.exception_label.clear()
-        self.user_input.clear()
-        self.halloween_image.hide()
-        self.christmas_image.hide()
-        self.poll_image.hide()
-        self.snowman_image.show()
-        self.sun_image.show()
-        self.or_label.show()
         self.left_label.setText('Summer')
         self.right_label.setText('Winter')
         self.results_label.setText('')
@@ -78,6 +87,11 @@ class Logic(QMainWindow, Ui_MainWindow):
         '''
         This function ensures that the dictionaries and the vote files are reset.
         '''
+        self.snowman_image.show()
+        self.sun_image.show()
+        self.halloween_image.hide()
+        self.christmas_image.hide()
+        self.when_poll_changes()
         try:
             self.holiday_votes_dictionary = {'Halloween': 0, 'Christmas': 0}
             self.season_votes_dictionary = {'Summer': 0, 'Winter': 0}
@@ -114,7 +128,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.user_input.clear()
         self.user_input.setFocus()
 
-
     def save_votes(self) -> None:
         '''
         This function ensures that the votes are saved to the correct file.
@@ -133,7 +146,6 @@ class Logic(QMainWindow, Ui_MainWindow):
                     file.write(f"{option}:{count}\n")
         except Exception as e:
             print(f"Error saving votes: {e}")
-
 
     def determine_outcome(self) -> str:
         '''
@@ -174,8 +186,10 @@ class Logic(QMainWindow, Ui_MainWindow):
         poll_dictionary = {}
         if self.holiday_button.isChecked():
             poll_dictionary = self.holiday_votes_dictionary
+            self.exception_label.clear()
         elif self.season_button.isChecked():
             poll_dictionary = self.season_votes_dictionary
+            self.exception_label.clear()
         else:
             return None
         for key, votes in poll_dictionary.items():
@@ -184,12 +198,19 @@ class Logic(QMainWindow, Ui_MainWindow):
             results_text += "It's a tie!"
         else:
             results_text += f'{outcome} wins!'
+            self.results_label.setText('Choose a poll.')
+        if self.holiday_button.isChecked() or self.season_button.isChecked():
+            for key, votes in poll_dictionary.items():
+                results_text += f'{key} has {votes} votes.\n'
+            if outcome == 'Tie':
+                results_text += "It's a tie!"
+            else:
+                results_text += f'{outcome} wins!'
         self.results_label.setText(results_text)
         print("votes: ", poll_dictionary)
         self.user_input.setText('')
         self.user_input.setFocus()
         self.exception_label.setText("")
-
 
     def load_votes(self) -> None:
         '''
@@ -211,4 +232,3 @@ class Logic(QMainWindow, Ui_MainWindow):
                         poll_dictionary[option] = int(count)
         except Exception as e:
             print(f"Error loading votes: {e}")
-
