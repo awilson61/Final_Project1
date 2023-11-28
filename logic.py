@@ -20,6 +20,11 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.christmas_image.hide()
         self.snowman_image.hide()
         self.sun_image.hide()
+        self.winter_button.hide()
+        self.summer_button.hide()
+        self.christmas_button.hide()
+        self.halloween_button.hide()
+
         # These determine what happens when buttons are clicked.
         self.user_input.hide()
         self.vote_button.hide()
@@ -61,15 +66,18 @@ class Logic(QMainWindow, Ui_MainWindow):
         This function changes the UI to permit voting for holidays.
         '''
         self.title_label.setText(self.TITLE + 'Halloween or Christmas')
-        self.left_label.setText('Halloween')
-        self.right_label.setText('Christmas')
         self.results_label.setText('')
         self.exception_label.setText("")
         self.halloween_image.show()
         self.christmas_image.show()
+        self.summer_button.hide()
+        self.winter_button.hide()
+        self.christmas_button.show()
+        self.halloween_button.show()
         self.snowman_image.hide()
         self.sun_image.hide()
         self.load_votes()
+        self.clear_radio()
         self.when_poll_changes()
 
     def seasons_poll(self) -> None:
@@ -77,12 +85,14 @@ class Logic(QMainWindow, Ui_MainWindow):
         This function changes the UI to permit voting for seasons.
         '''
         self.title_label.setText(self.TITLE + 'Summer or Winter')
-        self.left_label.setText('Summer')
-        self.right_label.setText('Winter')
         self.results_label.setText('')
         self.exception_label.setText("")
         self.halloween_image.hide()
         self.christmas_image.hide()
+        self.summer_button.show()
+        self.winter_button.show()
+        self.christmas_button.hide()
+        self.halloween_button.hide()
         self.snowman_image.show()
         self.sun_image.show()
         self.load_votes()
@@ -107,6 +117,10 @@ class Logic(QMainWindow, Ui_MainWindow):
             print(f"Error resetting votes. {e}")
         self.results_label.setText('')
         self.user_input.setFocus()
+
+    def clear_radio(self) -> None:
+        #FIXME need
+        self.christmas_button.setChecked(False)
 
     def vote(self) -> None:
         '''
