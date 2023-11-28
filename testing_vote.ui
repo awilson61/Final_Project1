@@ -105,24 +105,6 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="left_label">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>280</y>
-      <width>131</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>15</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QPushButton" name="vote_button">
     <property name="geometry">
      <rect>
@@ -136,29 +118,11 @@
      <string>VOTE</string>
     </property>
    </widget>
-   <widget class="QLabel" name="right_label">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>281</y>
-      <width>131</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>16</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QLabel" name="or_label">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>280</y>
+      <x>180</x>
+      <y>290</y>
       <width>60</width>
       <height>21</height>
      </rect>
@@ -205,7 +169,7 @@
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>101</width>
+      <width>131</width>
       <height>41</height>
      </rect>
     </property>
@@ -285,6 +249,9 @@
     <property name="text">
      <string>Holidays</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">buttonGroup</string>
+    </attribute>
    </widget>
    <widget class="QRadioButton" name="season_button">
     <property name="geometry">
@@ -298,6 +265,9 @@
     <property name="text">
      <string>Seasons</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">buttonGroup</string>
+    </attribute>
    </widget>
    <widget class="QLabel" name="sun_image">
     <property name="enabled">
@@ -352,8 +322,8 @@
    <widget class="QLabel" name="poll_image">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>110</y>
+      <x>100</x>
+      <y>100</y>
       <width>271</width>
       <height>241</height>
      </rect>
@@ -400,6 +370,58 @@
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QRadioButton" name="christmas_button">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>290</y>
+      <width>100</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Christmas</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="halloween_button">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>290</y>
+      <width>100</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Halloween</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="summer_button">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>290</y>
+      <width>100</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Summer</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="winter_button">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>290</y>
+      <width>100</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Winter</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -407,7 +429,7 @@
      <x>0</x>
      <y>0</y>
      <width>680</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>
@@ -423,4 +445,7 @@
  </tabstops>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
 </ui>
