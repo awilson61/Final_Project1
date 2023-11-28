@@ -127,6 +127,8 @@ class Logic(QMainWindow, Ui_MainWindow):
         This function ensures that the votes are stored in the right dictionary.
         '''
         poll_dictionary = {}
+        self.holiday_button.setChecked(False)
+        self.season_button.setChecked(False)
         if self.holiday_button.isChecked():
             poll_dictionary = self.holiday_votes_dictionary
         elif self.season_button.isChecked():
