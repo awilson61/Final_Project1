@@ -87,6 +87,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         This function changes the UI to permit voting for seasons.
         '''
         self.title_label.setText(self.TITLE + 'Summer or Winter')
+
         self.results_label.setText('')
         self.exception_label.setText("")
         self.halloween_image.hide()
@@ -99,6 +100,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.sun_image.show()
         self.load_votes()
         self.when_poll_changes()
+
 
 
     def clear(self) -> None:
@@ -116,7 +118,22 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.results_label.setText('')
         self.user_input.setFocus()
 
-
+    def get_selected_radio_button_text(self) -> None:
+        '''
+        This function grabs the text from the radio button of the item you vote and
+        assigns it to the text.
+        :return: The text of the radio button
+        '''
+        if self.halloween_button.isChecked():
+            return self.halloween_button.text().strip().title()
+        elif self.christmas_button.isChecked():
+            return self.christmas_button.text().strip().title()
+        elif self.summer_button.isChecked():
+            return self.summer_button.text().strip().title()
+        elif self.winter_button.isChecked():
+            return self.winter_button.text().strip().title()
+        else:
+            return ""
     def vote(self) -> None:
         '''
         This function ensures that the votes are stored in the right dictionary.
@@ -127,7 +144,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         elif self.season_button.isChecked():
             poll_dictionary = self.season_votes_dictionary
         try:
-            choice = self.user_input.text().strip().title()
+            choice = self.get_selected_radio_button_text()
             if choice in poll_dictionary:
                 poll_dictionary[choice] += 1
                 self.save_votes()

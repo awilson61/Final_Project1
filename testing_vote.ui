@@ -156,12 +156,12 @@
      <rect>
       <x>15</x>
       <y>420</y>
-      <width>91</width>
+      <width>141</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Type Below:</string>
+     <string>Enter Name Below</string>
     </property>
    </widget>
    <widget class="QPushButton" name="reset_button">
