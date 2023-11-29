@@ -45,6 +45,25 @@ class Logic(QMainWindow, Ui_MainWindow):
         # These files allow the votes to be stored while the program isn't running.
         self.holiday_file = 'holiday_votes.txt'
         self.season_file = 'season_votes.txt'
+        
+        # Creating Button Group
+        self.button_group = QButtonGroup()
+        self.button_group.addButton(self.halloween_button)
+        self.button_group.addButton(self.christmas_button)
+        self.button_group.addButton(self.summer_button)
+        self.button_group.addButton(self.winter_button)
+        
+    def clear_radio_button(self) -> None:
+        '''
+        This function clears the radio buttons when you switch to another
+        poll or when you click the vote button.
+        '''
+        self.button_group.setExclusive(False)
+        self.halloween_button.setChecked(False)
+        self.christmas_button.setChecked(False)
+        self.summer_button.setChecked(False)
+        self.winter_button.setChecked(False)
+        self.button_group.setExclusive(True)
 
     def when_poll_changes(self) -> None:
         '''
@@ -78,6 +97,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.halloween_button.show()
         self.snowman_image.hide()
         self.sun_image.hide()
+        self.clear_radio_button()
         self.load_votes()
         self.when_poll_changes()
 
@@ -98,6 +118,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.halloween_button.hide()
         self.snowman_image.show()
         self.sun_image.show()
+        self.clear_radio_button()
         self.load_votes()
         self.when_poll_changes()
 
@@ -147,11 +168,13 @@ class Logic(QMainWindow, Ui_MainWindow):
             choice = self.get_selected_radio_button_text()
             if choice in poll_dictionary:
                 poll_dictionary[choice] += 1
+                self.clear_radio_button()
                 self.save_votes()
             else:
                 self.user_input.clear()
                 raise Exception
             self.results_label.setText('')
+
         except:
             self.exception_label.setText("Please choose from an item in the poll!")
             self.user_input.clear()
