@@ -30,6 +30,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.vote_button.hide()
         self.results_button.hide()
         self.typebelow_label.hide()
+        self.reset_button.hide()
         # When buttons are clicked
         self.reset_button.clicked.connect(lambda: self.clear())
         self.vote_button.clicked.connect(lambda: self.vote())
@@ -44,6 +45,25 @@ class Logic(QMainWindow, Ui_MainWindow):
         # These files allow the votes to be stored while the program isn't running.
         self.holiday_file = 'holiday_votes.txt'
         self.season_file = 'season_votes.txt'
+        
+        # Creating Button Group
+        self.button_group = QButtonGroup()
+        self.button_group.addButton(self.halloween_button)
+        self.button_group.addButton(self.christmas_button)
+        self.button_group.addButton(self.summer_button)
+        self.button_group.addButton(self.winter_button)
+        
+    def clear_radio_button(self) -> None:
+        '''
+        This function clears the radio buttons when you switch to another
+        poll or when you click the vote button.
+        '''
+        self.button_group.setExclusive(False)
+        self.halloween_button.setChecked(False)
+        self.christmas_button.setChecked(False)
+        self.summer_button.setChecked(False)
+        self.winter_button.setChecked(False)
+        self.button_group.setExclusive(True)
 
     def when_poll_changes(self) -> None:
         '''
@@ -59,6 +79,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.exception_label.clear()
         self.user_input.clear()
         self.results_label.clear()
+        self.reset_button.show()
         self.load_votes()
 
     def holiday_poll(self) -> None:
@@ -76,15 +97,17 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.halloween_button.show()
         self.snowman_image.hide()
         self.sun_image.hide()
+        self.clear_radio_button()
         self.load_votes()
-        self.clear_radio()
         self.when_poll_changes()
+
 
     def seasons_poll(self) -> None:
         '''
         This function changes the UI to permit voting for seasons.
         '''
         self.title_label.setText(self.TITLE + 'Summer or Winter')
+
         self.results_label.setText('')
         self.exception_label.setText("")
         self.halloween_image.hide()
@@ -95,19 +118,17 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.halloween_button.hide()
         self.snowman_image.show()
         self.sun_image.show()
+        self.clear_radio_button()
         self.load_votes()
         self.when_poll_changes()
+
+
 
     def clear(self) -> None:
         '''
         This function ensures that the dictionaries and the vote files are reset.
         '''
-        # FIXME I'm not sure what these 5 lines of code are supposed to do.
-        self.snowman_image.show()
-        self.sun_image.show()
-        self.halloween_image.hide()
-        self.christmas_image.hide()
-        self.when_poll_changes()
+        # Not sure if we need this: self.when_poll_changes()
         try:
             self.holiday_votes_dictionary = {'Halloween': 0, 'Christmas': 0}
             self.season_votes_dictionary = {'Summer': 0, 'Winter': 0}
@@ -118,10 +139,22 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.results_label.setText('')
         self.user_input.setFocus()
 
-    def clear_radio(self) -> None:
-        #FIXME need
-        self.christmas_button.setChecked(False)
-
+    def get_selected_radio_button_text(self) -> None:
+        '''
+        This function grabs the text from the radio button of the item you vote and
+        assigns it to the text.
+        :return: The text of the radio button
+        '''
+        if self.halloween_button.isChecked():
+            return self.halloween_button.text().strip().title()
+        elif self.christmas_button.isChecked():
+            return self.christmas_button.text().strip().title()
+        elif self.summer_button.isChecked():
+            return self.summer_button.text().strip().title()
+        elif self.winter_button.isChecked():
+            return self.winter_button.text().strip().title()
+        else:
+            return ""
     def vote(self) -> None:
         '''
         This function ensures that the votes are stored in the right dictionary.
@@ -134,14 +167,16 @@ class Logic(QMainWindow, Ui_MainWindow):
         elif self.season_button.isChecked():
             poll_dictionary = self.season_votes_dictionary
         try:
-            choice = self.user_input.text().strip().title()
+            choice = self.get_selected_radio_button_text()
             if choice in poll_dictionary:
                 poll_dictionary[choice] += 1
+                self.clear_radio_button()
                 self.save_votes()
             else:
                 self.user_input.clear()
                 raise Exception
             self.results_label.setText('')
+
         except:
             self.exception_label.setText("Please choose from an item in the poll!")
             self.user_input.clear()

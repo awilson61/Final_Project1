@@ -156,12 +156,12 @@
      <rect>
       <x>15</x>
       <y>420</y>
-      <width>91</width>
+      <width>141</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Type Below:</string>
+     <string>Enter Name Below</string>
     </property>
    </widget>
    <widget class="QPushButton" name="reset_button">
@@ -322,8 +322,8 @@
    <widget class="QLabel" name="poll_image">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>100</y>
+      <x>90</x>
+      <y>70</y>
       <width>271</width>
       <height>241</height>
      </rect>
@@ -396,19 +396,6 @@
      <string>Halloween</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="summer_button">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>290</y>
-      <width>100</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Summer</string>
-    </property>
-   </widget>
    <widget class="QRadioButton" name="winter_button">
     <property name="geometry">
      <rect>
@@ -420,6 +407,22 @@
     </property>
     <property name="text">
      <string>Winter</string>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="summer_button">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>290</y>
+      <width>100</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Summer</string>
     </property>
    </widget>
   </widget>
