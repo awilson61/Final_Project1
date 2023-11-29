@@ -5,6 +5,7 @@ from PyQt6.QtGui import QPixmap
 
 
 class Logic(QMainWindow, Ui_MainWindow):
+
     def __init__(self) -> None:
         '''
         This method initializes the appearance of the voting menu, the
@@ -45,14 +46,14 @@ class Logic(QMainWindow, Ui_MainWindow):
         # These files allow the votes to be stored while the program isn't running.
         self.holiday_file = 'holiday_votes.txt'
         self.season_file = 'season_votes.txt'
-        
+
         # Creating Button Group
         self.button_group = QButtonGroup()
         self.button_group.addButton(self.halloween_button)
         self.button_group.addButton(self.christmas_button)
         self.button_group.addButton(self.summer_button)
         self.button_group.addButton(self.winter_button)
-        
+
     def clear_radio_button(self) -> None:
         '''
         This function clears the radio buttons when you switch to another
@@ -168,6 +169,13 @@ class Logic(QMainWindow, Ui_MainWindow):
             poll_dictionary = self.season_votes_dictionary
         try:
             choice = self.get_selected_radio_button_text()
+            user_input_text = self.user_input.text().strip()
+            if len(user_input_text.split()) < 2:
+                raise ValueError
+            user_vote_key = ' '.join(user_input_text.split())
+            # TODO Remove this print statement.
+            print(user_vote_key)
+
             if choice in poll_dictionary:
                 poll_dictionary[choice] += 1
                 self.clear_radio_button()
@@ -177,11 +185,17 @@ class Logic(QMainWindow, Ui_MainWindow):
                 raise Exception
             self.results_label.setText('')
 
+        except ValueError:
+            self.exception_label.setText("Please ensure that you typed\na space between each name.")
+            self.user_input.clear()
         except:
-            self.exception_label.setText("Please choose from an item in the poll!")
+            if self.holiday_button.setChecked(True):
+                self.exception_label.setText("Please choose a holiday.")
+            else:
+                self.exception_label.setText("Please choose a season.")
             self.user_input.clear()
         else:
-            self.exception_label.setText("")
+            self.exception_label.setText('')
         self.results_label.setText('')
         self.user_input.clear()
         self.user_input.setFocus()

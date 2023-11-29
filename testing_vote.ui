@@ -108,7 +108,7 @@
    <widget class="QPushButton" name="vote_button">
     <property name="geometry">
      <rect>
-      <x>175</x>
+      <x>190</x>
       <y>440</y>
       <width>91</width>
       <height>41</height>
@@ -156,12 +156,12 @@
      <rect>
       <x>15</x>
       <y>420</y>
-      <width>141</width>
+      <width>161</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Enter Name Below</string>
+     <string>Please enter your full name.</string>
     </property>
    </widget>
    <widget class="QPushButton" name="reset_button">
@@ -201,7 +201,7 @@
    <widget class="QPushButton" name="results_button">
     <property name="geometry">
      <rect>
-      <x>275</x>
+      <x>300</x>
       <y>440</y>
       <width>151</width>
       <height>41</height>
@@ -432,7 +432,7 @@
      <x>0</x>
      <y>0</y>
      <width>680</width>
-     <height>24</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
@@ -443,6 +443,10 @@
   <tabstop>holiday_button</tabstop>
   <tabstop>season_button</tabstop>
   <tabstop>user_input</tabstop>
+  <tabstop>halloween_button</tabstop>
+  <tabstop>christmas_button</tabstop>
+  <tabstop>summer_button</tabstop>
+  <tabstop>winter_button</tabstop>
   <tabstop>vote_button</tabstop>
   <tabstop>results_button</tabstop>
  </tabstops>
