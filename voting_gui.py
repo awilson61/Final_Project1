@@ -136,14 +136,13 @@ class Ui_MainWindow(object):
         self.halloween_button = QtWidgets.QRadioButton(parent=self.centralwidget)
         self.halloween_button.setGeometry(QtCore.QRect(30, 290, 100, 20))
         self.halloween_button.setObjectName("halloween_button")
-        self.summer_button = QtWidgets.QRadioButton(parent=self.centralwidget)
-        self.summer_button.setGeometry(QtCore.QRect(30, 290, 100, 20))
-        self.summer_button.setChecked(True)
-        self.summer_button.setObjectName("summer_button")
         self.winter_button = QtWidgets.QRadioButton(parent=self.centralwidget)
         self.winter_button.setGeometry(QtCore.QRect(300, 290, 100, 20))
         self.winter_button.setChecked(False)
         self.winter_button.setObjectName("winter_button")
+        self.summer_button = QtWidgets.QRadioButton(parent=self.centralwidget)
+        self.summer_button.setGeometry(QtCore.QRect(30, 290, 100, 20))
+        self.summer_button.setObjectName("summer_button")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 680, 24))
@@ -176,8 +175,8 @@ class Ui_MainWindow(object):
         self.instructions_label.setText(_translate("MainWindow", "Welcome to the voting menu! Select the options above and start voting!"))
         self.christmas_button.setText(_translate("MainWindow", "Christmas"))
         self.halloween_button.setText(_translate("MainWindow", "Halloween"))
-        self.summer_button.setText(_translate("MainWindow", "Summer"))
         self.winter_button.setText(_translate("MainWindow", "Winter"))
+        self.summer_button.setText(_translate("MainWindow", "Summer"))
 
 
 if __name__ == "__main__":

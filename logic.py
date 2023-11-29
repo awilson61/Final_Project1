@@ -45,11 +45,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         # These files allow the votes to be stored while the program isn't running.
         self.holiday_file = 'holiday_votes.txt'
         self.season_file = 'season_votes.txt'
-    def clear_radio(self):
-        self.christmas_button.setChecked(False)
-        self.halloween_button.setChecked(False)
-        self.summer_button.setChecked(False)
-        self.winter_button.setChecked(False)
+
     def when_poll_changes(self) -> None:
         '''
         This function is supposed to reduce repetition in
@@ -84,7 +80,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.sun_image.hide()
         self.load_votes()
         self.when_poll_changes()
-        self.clear_radio()
+
 
     def seasons_poll(self) -> None:
         '''
@@ -103,7 +99,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.sun_image.show()
         self.load_votes()
         self.when_poll_changes()
-        self.clear_radio()
 
 
     def clear(self) -> None:
