@@ -30,6 +30,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.vote_button.hide()
         self.results_button.hide()
         self.typebelow_label.hide()
+        self.reset_button.hide()
         # When buttons are clicked
         self.reset_button.clicked.connect(lambda: self.clear())
         self.vote_button.clicked.connect(lambda: self.vote())
@@ -44,7 +45,11 @@ class Logic(QMainWindow, Ui_MainWindow):
         # These files allow the votes to be stored while the program isn't running.
         self.holiday_file = 'holiday_votes.txt'
         self.season_file = 'season_votes.txt'
-
+    def clear_radio(self):
+        self.christmas_button.setChecked(False)
+        self.halloween_button.setChecked(False)
+        self.summer_button.setChecked(False)
+        self.winter_button.setChecked(False)
     def when_poll_changes(self) -> None:
         '''
         This function is supposed to reduce repetition in
@@ -59,6 +64,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.exception_label.clear()
         self.user_input.clear()
         self.results_label.clear()
+        self.reset_button.show()
         self.load_votes()
 
     def holiday_poll(self) -> None:
@@ -77,8 +83,8 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.snowman_image.hide()
         self.sun_image.hide()
         self.load_votes()
-        self.clear_radio()
         self.when_poll_changes()
+        self.clear_radio()
 
     def seasons_poll(self) -> None:
         '''
@@ -97,17 +103,14 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.sun_image.show()
         self.load_votes()
         self.when_poll_changes()
+        self.clear_radio()
+
 
     def clear(self) -> None:
         '''
         This function ensures that the dictionaries and the vote files are reset.
         '''
-        # FIXME I'm not sure what these 5 lines of code are supposed to do.
-        self.snowman_image.show()
-        self.sun_image.show()
-        self.halloween_image.hide()
-        self.christmas_image.hide()
-        self.when_poll_changes()
+        # Not sure if we need this: self.when_poll_changes()
         try:
             self.holiday_votes_dictionary = {'Halloween': 0, 'Christmas': 0}
             self.season_votes_dictionary = {'Summer': 0, 'Winter': 0}
@@ -118,9 +121,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.results_label.setText('')
         self.user_input.setFocus()
 
-    def clear_radio(self) -> None:
-        #FIXME need
-        self.christmas_button.setChecked(False)
 
     def vote(self) -> None:
         '''
