@@ -322,8 +322,8 @@
    <widget class="QLabel" name="poll_image">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>-40</y>
+      <x>90</x>
+      <y>70</y>
       <width>271</width>
       <height>241</height>
      </rect>
@@ -461,7 +461,7 @@
   <buttongroup name="buttonGroup"/>
   <buttongroup name="poll_items">
    <property name="exclusive">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </buttongroup>
  </buttongroups>
