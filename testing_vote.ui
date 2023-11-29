@@ -382,9 +382,6 @@
     <property name="text">
      <string>Christmas</string>
     </property>
-    <attribute name="buttonGroup">
-     <string notr="true">poll_items</string>
-    </attribute>
    </widget>
    <widget class="QRadioButton" name="halloween_button">
     <property name="geometry">
@@ -398,9 +395,6 @@
     <property name="text">
      <string>Halloween</string>
     </property>
-    <attribute name="buttonGroup">
-     <string notr="true">poll_items</string>
-    </attribute>
    </widget>
    <widget class="QRadioButton" name="summer_button">
     <property name="geometry">
@@ -414,9 +408,9 @@
     <property name="text">
      <string>Summer</string>
     </property>
-    <attribute name="buttonGroup">
-     <string notr="true">poll_items</string>
-    </attribute>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QRadioButton" name="winter_button">
     <property name="geometry">
@@ -430,9 +424,9 @@
     <property name="text">
      <string>Winter</string>
     </property>
-    <attribute name="buttonGroup">
-     <string notr="true">poll_items</string>
-    </attribute>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -459,10 +453,5 @@
  <connections/>
  <buttongroups>
   <buttongroup name="buttonGroup"/>
-  <buttongroup name="poll_items">
-   <property name="exclusive">
-    <bool>true</bool>
-   </property>
-  </buttongroup>
  </buttongroups>
 </ui>
