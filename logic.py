@@ -145,9 +145,13 @@ class Logic(QMainWindow, Ui_MainWindow):
             # TODO ensure that the csv files are cleared with this.
             #open(self.season_file, "w").close()
             #open(self.holiday_file, "w").close()
+            #TODO does this work below?
+            self.season_votes_dictionary = {'Summer': 0, 'Winter': 0, 'ballots': {}}
+            self.holiday_votes_dictionary = {'Halloween': 0, 'Christmas': 0, 'ballots': {}}
         except Exception as e:
             print(f"Error resetting votes. {e}")
         self.results_label.setText('')
+        self.voter_list.setText('')
         self.user_input.setFocus()
 
 
@@ -203,13 +207,17 @@ class Logic(QMainWindow, Ui_MainWindow):
             self.clear_radio_button()
             self.save_votes()
             self.user_input.clear()
+            self.voter_list.clear()
             self.results_label.setText('')
 
+
         except ValueError:
+            self.voter_list.setText('')
             self.exception_label.setText("Please ensure that you typed\na space between each name.")
             self.user_input.clear()
         except:
             #TODO the line below would be the easy solution to do.
+            self.voter_list.setText('')
             self.exception_label.setText("Please select any of the items to vote!")
             #TODO Theres a lgoical error in these lines of code when the exception occurs.
             #if self.holiday_button.setChecked(True):
