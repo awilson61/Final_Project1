@@ -201,27 +201,14 @@
    <widget class="QPushButton" name="results_button">
     <property name="geometry">
      <rect>
-      <x>300</x>
+      <x>290</x>
       <y>440</y>
-      <width>151</width>
+      <width>161</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
      <string>SHOW RESULTS</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="results_label">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>320</y>
-      <width>231</width>
-      <height>161</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="exception_label">
@@ -425,6 +412,54 @@
      <string>Summer</string>
     </property>
    </widget>
+   <widget class="QScrollArea" name="scrollArea">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>351</y>
+      <width>201</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>199</width>
+       <height>119</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="voter_list">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="results_label">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>270</y>
+      <width>171</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -432,7 +467,7 @@
      <x>0</x>
      <y>0</y>
      <width>680</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>

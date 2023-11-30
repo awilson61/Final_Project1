@@ -89,6 +89,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.user_input.clear()
         self.results_label.clear()
         self.reset_button.show()
+        self.voter_list.clear()
         self.load_votes()
 
     def holiday_poll(self) -> None:
@@ -142,11 +143,15 @@ class Logic(QMainWindow, Ui_MainWindow):
             self.holiday_votes_dictionary = Logic.BLANK_HOLIDAY_DICTIONARY
             self.season_votes_dictionary = Logic.BLANK_SEASON_DICTIONARY
             # TODO ensure that the csv files are cleared with this.
-            # open(self.season_file, "w").close()
-            # open(self.holiday_file, "w").close()
+            #open(self.season_file, "w").close()
+            #open(self.holiday_file, "w").close()
+            #TODO does this work below?
+            self.season_votes_dictionary = {'Summer': 0, 'Winter': 0, 'ballots': {}}
+            self.holiday_votes_dictionary = {'Halloween': 0, 'Christmas': 0, 'ballots': {}}
         except Exception as e:
             print(f"Error resetting votes. {e}")
         self.results_label.setText('')
+        self.voter_list.setText('')
         self.user_input.setFocus()
 
 
@@ -202,20 +207,24 @@ class Logic(QMainWindow, Ui_MainWindow):
             self.clear_radio_button()
             self.save_votes()
             self.user_input.clear()
+            self.voter_list.clear()
             self.results_label.setText('')
 
+
         except ValueError:
+            self.voter_list.setText('')
             self.exception_label.setText("Please ensure that you typed\na space between each name.")
             self.user_input.clear()
         except:
-            if self.holiday_button.setChecked(True):
-                self.exception_label.setText("Please choose a holiday.")
-            else:
-                self.exception_label.setText("Please choose a season.")
+            #TODO the line below would be the easy solution to do.
+            self.voter_list.setText('')
+            self.exception_label.setText("Please select any of the items to vote!")
+            #TODO Theres a lgoical error in these lines of code when the exception occurs.
+            #if self.holiday_button.setChecked(True):
+                #self.exception_label.setText("Please choose a holiday.")
+            #elif self.season_button.setChecked(True):
+                #self.exception_label.setText("Please choose a season.")
             self.user_input.clear()
-        # TODO Delete this else: branch if it isn't needed.
-        # else:
-            # self.exception_label.setText('')
         self.results_label.setText('')
         self.user_input.clear()
         self.user_input.setFocus()
@@ -286,6 +295,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         """
         outcome = self.determine_outcome()
         results_text = ''
+        voter_text = 'VOTERS:\n'
         poll_dictionary = {}
         if self.holiday_button.isChecked():
             poll_dictionary = self.holiday_votes_dictionary
@@ -297,12 +307,19 @@ class Logic(QMainWindow, Ui_MainWindow):
             return None
         if self.holiday_button.isChecked() or self.season_button.isChecked():
             for key, votes in poll_dictionary.items():
-                results_text += f'{key} has {votes} votes.\n'
+                if key == 'ballots':
+                    # Separate each ballot on a new line
+                    voter_text += '\n'.join([f'{voter}: {vote}' for voter, vote in votes.items()])
+                else:
+                    # Replace " votes" with an empty string
+                    results_text += f'{key} has {votes}.\n'
             if outcome == 'Tie':
                 results_text += "It's a tie!"
             else:
                 results_text += f'{outcome} wins!'
         self.results_label.setText(results_text)
+        self.voter_list.setText(voter_text)
+
         print("votes: ", poll_dictionary)
         self.user_input.setText('')
         self.user_input.setFocus()
