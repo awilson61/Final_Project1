@@ -2,15 +2,28 @@ from PyQt6.QtWidgets import *
 from voting_gui import *
 import os
 from PyQt6.QtGui import QPixmap
+from re import *
+from csv import *
 
 
 class Logic(QMainWindow, Ui_MainWindow):
+    BLANK_HOLIDAY_DICTIONARY = {'Halloween': 0, 'Christmas': 0, 'ballots': {}}
+    BLANK_SEASON_DICTIONARY = {'Summer': 0, 'Winter': 0, 'ballots': {}}
+    # These files allow the votes to be stored while the program isn't running.
+
+    # TODO Delete these
+    # self.holiday_file = 'holiday_votes.csv'
+    # self.season_file = 'season_votes.csv'
+
+    HOLIDAY_FILE = 'holiday_votes.csv'
+    SEASON_FILE = 'season_votes.csv'
+
     def __init__(self) -> None:
-        '''
+        """
         This method initializes the appearance of the voting menu, the
         functions of the buttons, the dictionaries, and the files that store
         the votes between sessions.
-        '''
+        """
         super().__init__()
         self.TITLE = 'Voting Menu - '
         self.setupUi(self)
@@ -39,25 +52,21 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.season_button.clicked.connect(lambda: self.seasons_poll())
 
         # These dictionaries store the votes while the program is running.
-        self.holiday_votes_dictionary = {'Halloween': 0, 'Christmas': 0}
-        self.season_votes_dictionary = {'Summer': 0, 'Winter': 0}
+        self.holiday_votes_dictionary = {'Halloween': 0, 'Christmas': 0, 'ballots': {}}
+        self.season_votes_dictionary = {'Summer': 0, 'Winter': 0, 'ballots': {}}
 
-        # These files allow the votes to be stored while the program isn't running.
-        self.holiday_file = 'holiday_votes.txt'
-        self.season_file = 'season_votes.txt'
-        
         # Creating Button Group
         self.button_group = QButtonGroup()
         self.button_group.addButton(self.halloween_button)
         self.button_group.addButton(self.christmas_button)
         self.button_group.addButton(self.summer_button)
         self.button_group.addButton(self.winter_button)
-        
+
     def clear_radio_button(self) -> None:
-        '''
+        """
         This function clears the radio buttons when you switch to another
         poll or when you click the vote button.
-        '''
+        """
         self.button_group.setExclusive(False)
         self.halloween_button.setChecked(False)
         self.christmas_button.setChecked(False)
@@ -66,10 +75,10 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.button_group.setExclusive(True)
 
     def when_poll_changes(self) -> None:
-        '''
+        """
         This function is supposed to reduce repetition in
         the code when you switch between polls.
-        '''
+        """
         self.poll_image.hide()
         self.or_label.show()
         self.user_input.show()
@@ -83,9 +92,9 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.load_votes()
 
     def holiday_poll(self) -> None:
-        '''
+        """
         This function changes the UI to permit voting for holidays.
-        '''
+        """
         self.title_label.setText(self.TITLE + 'Halloween or Christmas')
         self.results_label.setText('')
         self.exception_label.setText("")
@@ -103,9 +112,9 @@ class Logic(QMainWindow, Ui_MainWindow):
 
 
     def seasons_poll(self) -> None:
-        '''
+        """
         This function changes the UI to permit voting for seasons.
-        '''
+        """
         self.title_label.setText(self.TITLE + 'Summer or Winter')
 
         self.results_label.setText('')
@@ -125,26 +134,28 @@ class Logic(QMainWindow, Ui_MainWindow):
 
 
     def clear(self) -> None:
-        '''
+        """
         This function ensures that the dictionaries and the vote files are reset.
-        '''
-        # Not sure if we need this: self.when_poll_changes()
+        """
+        # TODO Not sure if we need this: self.when_poll_changes()
         try:
-            self.holiday_votes_dictionary = {'Halloween': 0, 'Christmas': 0}
-            self.season_votes_dictionary = {'Summer': 0, 'Winter': 0}
-            open(self.season_file, "w").close()
-            open(self.holiday_file, "w").close()
+            self.holiday_votes_dictionary = Logic.BLANK_HOLIDAY_DICTIONARY
+            self.season_votes_dictionary = Logic.BLANK_SEASON_DICTIONARY
+            # TODO ensure that the csv files are cleared with this.
+            # open(self.season_file, "w").close()
+            # open(self.holiday_file, "w").close()
         except Exception as e:
             print(f"Error resetting votes. {e}")
         self.results_label.setText('')
         self.user_input.setFocus()
 
-    def get_selected_radio_button_text(self) -> None:
-        '''
-        This function grabs the text from the radio button of the item you vote and
-        assigns it to the text.
-        :return: The text of the radio button
-        '''
+
+    def get_selected_radio_button_text(self) -> str:
+        """
+        This function grabs the text from the selected radio button and returns
+        it as a string.
+        :return: The text of the radio button.
+        """
         if self.halloween_button.isChecked():
             return self.halloween_button.text().strip().title()
         elif self.christmas_button.isChecked():
@@ -155,60 +166,93 @@ class Logic(QMainWindow, Ui_MainWindow):
             return self.winter_button.text().strip().title()
         else:
             return ""
+
+    def prepare_voter_name(self, name: str) -> str:
+        reg_expression = r'[^a-zA-Z0-9\s]'
+        name_without_special_characters = sub(reg_expression, '', name)
+        return name_without_special_characters
+
     def vote(self) -> None:
-        '''
-        This function ensures that the votes are stored in the right dictionary.
-        '''
+        """
+        This function ensures that the votes are stored in the correct dictionary.
+        """
         poll_dictionary = {}
+        self.holiday_button.setChecked(False)
+        self.season_button.setChecked(False)
         if self.holiday_button.isChecked():
             poll_dictionary = self.holiday_votes_dictionary
         elif self.season_button.isChecked():
             poll_dictionary = self.season_votes_dictionary
         try:
+            user_input_text = self.user_input.text().strip()
+            if len(user_input_text.split()) < 2:
+                raise ValueError
+            prepared_voter_name = self.prepare_voter_name(user_input_text)
+            voter_name_key = prepared_voter_name
+            print(voter_name_key)  # TODO Remove this print statement.
             choice = self.get_selected_radio_button_text()
-            if choice in poll_dictionary:
+
+            if poll_dictionary['ballots'].get(voter_name_key, "Has not voted") == "Has not voted":
                 poll_dictionary[choice] += 1
-                self.clear_radio_button()
-                self.save_votes()
+                poll_dictionary['ballots'][voter_name_key] = choice
+                print(poll_dictionary['ballots'])
             else:
-                self.user_input.clear()
-                raise Exception
+                self.exception_label.setText("You have already voted.")
+
+            self.clear_radio_button()
+            self.save_votes()
+            self.user_input.clear()
             self.results_label.setText('')
 
-        except:
-            self.exception_label.setText("Please choose from an item in the poll!")
+        except ValueError:
+            self.exception_label.setText("Please ensure that you typed\na space between each name.")
             self.user_input.clear()
-        else:
-            self.exception_label.setText("")
+        except:
+            if self.holiday_button.setChecked(True):
+                self.exception_label.setText("Please choose a holiday.")
+            else:
+                self.exception_label.setText("Please choose a season.")
+            self.user_input.clear()
+        # TODO Delete this else: branch if it isn't needed.
+        # else:
+            # self.exception_label.setText('')
         self.results_label.setText('')
         self.user_input.clear()
         self.user_input.setFocus()
 
     def save_votes(self) -> None:
-        '''
+        """
         This function ensures that the votes are saved to the correct file.
-        '''
+        """
         filename = "blank.txt"
         poll_dictionary = {}
         if self.holiday_button.isChecked():
-            filename = self.holiday_file
+            filename = Logic.HOLIDAY_FILE
             poll_dictionary = self.holiday_votes_dictionary
         elif self.season_button.isChecked():
-            filename = self.season_file
+            filename = Logic.SEASON_FILE
             poll_dictionary = self.season_votes_dictionary
         try:
-            with open(filename, "a") as file:
+            with open(filename, "w", newline='') as file:
+                csv_writer = writer(file, delimiter=',')
+                list_to_write = []
                 for option, count in poll_dictionary.items():
-                    file.write(f"{option}:{count}\n")
+                    if option != 'ballots':
+                        list_to_write.append([option, count])
+                    else:
+                        for voter, vote in poll_dictionary[option].items():
+                            list_to_write.append([voter, vote])
+                print(list_to_write)
+                csv_writer.writerows(list_to_write)
         except Exception as e:
             print(f"Error saving votes: {e}")
 
     def determine_outcome(self) -> str:
-        '''
+        """
         This checks the values of the keys in the appropriate dictionary and
         determines the outcome of the vote.
         :return: This returns a string that describes the outcome of the vote.
-        '''
+        """
         potential_winner = ''
         potential_winning_score = 0
         ties_for_1st = 0
@@ -217,13 +261,16 @@ class Logic(QMainWindow, Ui_MainWindow):
             poll_dictionary = self.holiday_votes_dictionary
         elif self.season_button.isChecked():
             poll_dictionary = self.season_votes_dictionary
+
         for key, votes in poll_dictionary.items():
-            if votes > potential_winning_score:
-                potential_winner = key
-                potential_winning_score = votes
+            if key != 'ballots':
+                if votes > potential_winning_score:
+                    potential_winner = key
+                    potential_winning_score = votes
         for key, votes in poll_dictionary.items():
-            if votes == potential_winning_score:
-                ties_for_1st += 1
+            if key != 'ballots':
+                if votes == potential_winning_score:
+                    ties_for_1st += 1
         if ties_for_1st > 1:
             outcome = 'Tie'
         else:
@@ -231,12 +278,12 @@ class Logic(QMainWindow, Ui_MainWindow):
         return outcome
 
     def results(self) -> None:
-        '''
+        """
         This function displays the votes each candidate, the votes they have
         have accrued, and the outcome of the vote so far to the user.
         :return: This returns nothing and may return None early if the user
         doesn't choose a poll.
-        '''
+        """
         outcome = self.determine_outcome()
         results_text = ''
         poll_dictionary = {}
@@ -262,16 +309,16 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.exception_label.setText("")
 
     def load_votes(self) -> None:
-        '''
+        """
         This loads the votes stored in files into the appropriate dictionary.
-        '''
+        """
         filename = "blank.txt"
         poll_dictionary = {}
         if self.holiday_button.isChecked():
-            filename = self.holiday_file
+            # filename = self.holiday_file
             poll_dictionary = self.holiday_votes_dictionary
         elif self.season_button.isChecked():
-            filename = self.season_file
+            # filename = self.season_file
             poll_dictionary = self.season_votes_dictionary
         try:
             if os.path.exists(filename):
