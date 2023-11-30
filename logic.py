@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import *
 from voting_gui import *
 import os
 from PyQt6.QtGui import QPixmap
+from re import *
 
 
 class Logic(QMainWindow, Ui_MainWindow):
@@ -141,6 +142,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.results_label.setText('')
         self.user_input.setFocus()
 
+
     def get_selected_radio_button_text(self) -> str:
         '''
         This function grabs the text from the selected radio button and returns
@@ -157,6 +159,12 @@ class Logic(QMainWindow, Ui_MainWindow):
             return self.winter_button.text().strip().title()
         else:
             return ""
+
+    def prepare_voter_name(self, name: str) -> str:
+        reg_expression = r'[^a-zA-Z0-9\s]'
+        name_without_special_characters = sub(reg_expression, '', name)
+        return name_without_special_characters
+
     def vote(self) -> None:
         '''
         This function ensures that the votes are stored in the correct dictionary.
@@ -169,13 +177,14 @@ class Logic(QMainWindow, Ui_MainWindow):
         elif self.season_button.isChecked():
             poll_dictionary = self.season_votes_dictionary
         try:
-            choice = self.get_selected_radio_button_text()
             user_input_text = self.user_input.text().strip()
             if len(user_input_text.split()) < 2:
                 raise ValueError
+            prepared_voter_name = self.prepare_voter_name(user_input_text)
             user_vote_key = ' '.join(user_input_text.split())
             # TODO Remove this print statement.
             print(user_vote_key)
+            choice = self.get_selected_radio_button_text()
 
             if choice in poll_dictionary:
                 print(choice)
