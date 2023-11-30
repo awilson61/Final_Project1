@@ -148,6 +148,7 @@ class Logic(QMainWindow, Ui_MainWindow):
             #TODO does this work below?
             self.season_votes_dictionary = {'Summer': 0, 'Winter': 0, 'ballots': {}}
             self.holiday_votes_dictionary = {'Halloween': 0, 'Christmas': 0, 'ballots': {}}
+            self.exception_label.setText('')
         except Exception as e:
             print(f"Error resetting votes. {e}")
         self.results_label.setText('')
@@ -189,18 +190,20 @@ class Logic(QMainWindow, Ui_MainWindow):
         elif self.season_button.isChecked():
             poll_dictionary = self.season_votes_dictionary
         try:
-            user_input_text = self.user_input.text().strip()
+            user_input_text = self.user_input.text().strip().title()
             if len(user_input_text.split()) < 2:
                 raise ValueError
+            self.exception_label.setText('')
             prepared_voter_name = self.prepare_voter_name(user_input_text)
             voter_name_key = prepared_voter_name
-            print(voter_name_key)  # TODO Remove this print statement.
             choice = self.get_selected_radio_button_text()
 
             if poll_dictionary['ballots'].get(voter_name_key, "Has not voted") == "Has not voted":
+                self.exception_label.setText('')
                 poll_dictionary[choice] += 1
                 poll_dictionary['ballots'][voter_name_key] = choice
                 print(poll_dictionary['ballots'])
+
             else:
                 self.exception_label.setText("You have already voted.")
 
