@@ -42,6 +42,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         # These dictionaries store the votes while the program is running.
         self.holiday_votes_dictionary = {'Halloween': 0, 'Christmas': 0}
         self.season_votes_dictionary = {'Summer': 0, 'Winter': 0}
+        # self.vote_dictionary = {'Summer': 0, 'Winter': 0}
 
         # These files allow the votes to be stored while the program isn't running.
         self.holiday_file = 'holiday_votes.txt'
@@ -140,11 +141,11 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.results_label.setText('')
         self.user_input.setFocus()
 
-    def get_selected_radio_button_text(self) -> None:
+    def get_selected_radio_button_text(self) -> str:
         '''
-        This function grabs the text from the radio button of the item you vote and
-        assigns it to the text.
-        :return: The text of the radio button
+        This function grabs the text from the selected radio button and returns
+        it as a string.
+        :return: The text of the radio button.
         '''
         if self.halloween_button.isChecked():
             return self.halloween_button.text().strip().title()
@@ -158,7 +159,7 @@ class Logic(QMainWindow, Ui_MainWindow):
             return ""
     def vote(self) -> None:
         '''
-        This function ensures that the votes are stored in the right dictionary.
+        This function ensures that the votes are stored in the correct dictionary.
         '''
         poll_dictionary = {}
         self.holiday_button.setChecked(False)
@@ -177,6 +178,7 @@ class Logic(QMainWindow, Ui_MainWindow):
             print(user_vote_key)
 
             if choice in poll_dictionary:
+                print(choice)
                 poll_dictionary[choice] += 1
                 self.clear_radio_button()
                 self.save_votes()
