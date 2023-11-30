@@ -1,20 +1,15 @@
-from PyQt6.QtWidgets import *
-from voting_gui import *
-import os
-from PyQt6.QtGui import QPixmap
-from re import *
-from csv import *
+from PyQt6.QtWidgets import QMainWindow, QButtonGroup
+from voting_gui import Ui_MainWindow
+from os import path
+from re import sub
+from csv import writer, reader
 
 
 class Logic(QMainWindow, Ui_MainWindow):
-    BLANK_HOLIDAY_DICTIONARY = {'Halloween': 0, 'Christmas': 0, 'ballots': {}}
-    BLANK_SEASON_DICTIONARY = {'Summer': 0, 'Winter': 0, 'ballots': {}}
+    INITIAL_HOLIDAY_DICTIONARY = {'Halloween': 0, 'Christmas': 0, 'ballots': {}}
+    INITIAL_SEASON_DICTIONARY = {'Summer': 0, 'Winter': 0, 'ballots': {}}
+
     # These files allow the votes to be stored while the program isn't running.
-
-    # TODO Delete these
-    # self.holiday_file = 'holiday_votes.csv'
-    # self.season_file = 'season_votes.csv'
-
     HOLIDAY_FILE = 'holiday_votes.csv'
     SEASON_FILE = 'season_votes.csv'
 
@@ -37,14 +32,13 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.summer_button.hide()
         self.christmas_button.hide()
         self.halloween_button.hide()
-
-        # These determine what happens when buttons are clicked.
         self.user_input.hide()
         self.vote_button.hide()
         self.results_button.hide()
         self.typebelow_label.hide()
         self.reset_button.hide()
-        # When buttons are clicked
+
+        # These determine what happens when buttons are clicked.
         self.reset_button.clicked.connect(lambda: self.clear())
         self.vote_button.clicked.connect(lambda: self.vote())
         self.results_button.clicked.connect(lambda: self.results())
@@ -52,8 +46,8 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.season_button.clicked.connect(lambda: self.seasons_poll())
 
         # These dictionaries store the votes while the program is running.
-        self.holiday_votes_dictionary = {'Halloween': 0, 'Christmas': 0, 'ballots': {}}
-        self.season_votes_dictionary = {'Summer': 0, 'Winter': 0, 'ballots': {}}
+        self.holiday_votes_dictionary = Logic.INITIAL_HOLIDAY_DICTIONARY
+        self.season_votes_dictionary = Logic.INITIAL_SEASON_DICTIONARY
 
         # Creating Button Group
         self.button_group = QButtonGroup()
@@ -78,8 +72,8 @@ class Logic(QMainWindow, Ui_MainWindow):
 
     def when_poll_changes(self) -> None:
         """
-        This function is supposed to reduce repetition in
-        the code when you switch between polls.
+        This function is supposed to reduce repetition in the code when you
+        switch between polls.
         """
         self.poll_image.hide()
         self.or_label.show()
@@ -142,14 +136,10 @@ class Logic(QMainWindow, Ui_MainWindow):
         """
         # TODO Not sure if we need this: self.when_poll_changes()
         try:
-            self.holiday_votes_dictionary = Logic.BLANK_HOLIDAY_DICTIONARY
-            self.season_votes_dictionary = Logic.BLANK_SEASON_DICTIONARY
-            # TODO ensure that the csv files are cleared with this.
-            #open(self.season_file, "w").close()
-            #open(self.holiday_file, "w").close()
-            #TODO does this work below?
-            self.season_votes_dictionary = {'Summer': 0, 'Winter': 0, 'ballots': {}}
             self.holiday_votes_dictionary = {'Halloween': 0, 'Christmas': 0, 'ballots': {}}
+            self.season_votes_dictionary = {'Summer': 0, 'Winter': 0, 'ballots': {}}
+            open(Logic.SEASON_FILE, "w").close()
+            open(Logic.HOLIDAY_FILE, "w").close()
             self.exception_label.setText('')
         except Exception as e:
             print(f"Error resetting votes. {e}")
@@ -200,8 +190,10 @@ class Logic(QMainWindow, Ui_MainWindow):
             user_input_text = self.user_input.text()
             if len(user_input_text.split()) < 2:
                 raise ValueError
-            # TODO What is this for?
+
+            # TODO Do I still need this line.
             # self.exception_label.setText('')
+
             prepared_voter_name = self.prepare_voter_name(user_input_text)
             voter_name_key = prepared_voter_name
             choice = self.get_selected_radio_button_text()
@@ -209,7 +201,6 @@ class Logic(QMainWindow, Ui_MainWindow):
                 self.exception_label.setText('')
                 poll_dictionary[choice] += 1
                 poll_dictionary['ballots'][voter_name_key] = choice
-                print(poll_dictionary['ballots'])
             else:
                 self.exception_label.setText("You have already voted.")
             self.clear_radio_button()
@@ -222,14 +213,12 @@ class Logic(QMainWindow, Ui_MainWindow):
             self.exception_label.setText("Please ensure that you typed\na space between each name.")
             self.user_input.clear()
         except:
-            #TODO the line below would be the easy solution to do.
             self.voter_list.setText('')
-            self.exception_label.setText("Please select any of the items to vote!")
-            #TODO Theres a lgoical error in these lines of code when the exception occurs.
-            #if self.holiday_button.setChecked(True):
-                #self.exception_label.setText("Please choose a holiday.")
-            #elif self.season_button.setChecked(True):
-                #self.exception_label.setText("Please choose a season.")
+            # self.exception_label.setText("Please select any of the items to vote!")
+            if self.holiday_button.isChecked() == True:
+                self.exception_label.setText("Please choose a holiday.")
+            elif self.season_button.isChecked() == True:
+                self.exception_label.setText("Please choose a season.")
             self.user_input.clear()
         self.results_label.setText('')
         self.user_input.clear()
@@ -240,6 +229,8 @@ class Logic(QMainWindow, Ui_MainWindow):
         """
         This function ensures that the votes are saved to the correct file.
         """
+        filename = ''
+        poll_dictionary = {}
         if self.holiday_button.isChecked():
             filename = Logic.HOLIDAY_FILE
             poll_dictionary = self.holiday_votes_dictionary
@@ -256,7 +247,6 @@ class Logic(QMainWindow, Ui_MainWindow):
                     else:
                         for voter, vote in poll_dictionary[option].items():
                             list_to_write.append([voter, vote])
-                print(list_to_write)
                 csv_writer.writerows(list_to_write)
         except Exception as e:
             print(f"Error saving votes: {e}")
@@ -278,7 +268,6 @@ class Logic(QMainWindow, Ui_MainWindow):
             poll_dictionary = self.season_votes_dictionary
 
         for key, votes in poll_dictionary.items():
-            print(f'key {key}, votes {votes}')
             if key != 'ballots':
                 if votes > potential_winning_score:
                     potential_winner = key
@@ -328,8 +317,6 @@ class Logic(QMainWindow, Ui_MainWindow):
                 results_text += f'{outcome} wins!'
         self.results_label.setText(results_text)
         self.voter_list.setText(voter_text)
-
-        print("votes: ", poll_dictionary)
         self.user_input.setText('')
         self.user_input.setFocus()
         self.exception_label.setText("")
@@ -348,7 +335,7 @@ class Logic(QMainWindow, Ui_MainWindow):
             filename = Logic.SEASON_FILE
             poll_dictionary = self.season_votes_dictionary
         try:
-            if os.path.exists(filename):
+            if path.exists(filename):
                 with open(filename, "r") as file:
                     csv_reader = reader(file, delimiter=',')
                     candidate_list = ['Halloween', 'Christmas', 'Summer', 'Winter']
@@ -357,7 +344,6 @@ class Logic(QMainWindow, Ui_MainWindow):
                             poll_dictionary[line[0]] = int(line[1])
                         else:
                             poll_dictionary['ballots'][line[0]] = line[1]
-                    print(poll_dictionary)
 
                     # fqr line in file:
                     #     option, count = line.strip().split(":")
