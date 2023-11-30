@@ -62,6 +62,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.button_group.addButton(self.summer_button)
         self.button_group.addButton(self.winter_button)
 
+
     def clear_radio_button(self) -> None:
         """
         This function clears the radio buttons when you switch to another
@@ -73,6 +74,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.summer_button.setChecked(False)
         self.winter_button.setChecked(False)
         self.button_group.setExclusive(True)
+
 
     def when_poll_changes(self) -> None:
         """
@@ -91,6 +93,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.reset_button.show()
         self.voter_list.clear()
         self.load_votes()
+
 
     def holiday_poll(self) -> None:
         """
@@ -133,7 +136,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.when_poll_changes()
 
 
-
     def clear(self) -> None:
         """
         This function ensures that the dictionaries and the vote files are reset.
@@ -173,10 +175,15 @@ class Logic(QMainWindow, Ui_MainWindow):
         else:
             return ""
 
+
     def prepare_voter_name(self, name: str) -> str:
+        stripped_name = name.strip()
+
         reg_expression = r'[^a-zA-Z0-9\s]'
-        name_without_special_characters = sub(reg_expression, '', name)
+        name_without_special_characters = sub(reg_expression, '', stripped_name)
+
         return name_without_special_characters
+
 
     def vote(self) -> None:
         """
@@ -190,30 +197,26 @@ class Logic(QMainWindow, Ui_MainWindow):
         elif self.season_button.isChecked():
             poll_dictionary = self.season_votes_dictionary
         try:
-            user_input_text = self.user_input.text().strip().title()
+            user_input_text = self.user_input.text()
             if len(user_input_text.split()) < 2:
                 raise ValueError
-            self.exception_label.setText('')
+            # TODO What is this for?
+            # self.exception_label.setText('')
             prepared_voter_name = self.prepare_voter_name(user_input_text)
             voter_name_key = prepared_voter_name
             choice = self.get_selected_radio_button_text()
-
             if poll_dictionary['ballots'].get(voter_name_key, "Has not voted") == "Has not voted":
                 self.exception_label.setText('')
                 poll_dictionary[choice] += 1
                 poll_dictionary['ballots'][voter_name_key] = choice
                 print(poll_dictionary['ballots'])
-
             else:
                 self.exception_label.setText("You have already voted.")
-
             self.clear_radio_button()
             self.save_votes()
             self.user_input.clear()
             self.voter_list.clear()
             self.results_label.setText('')
-
-
         except ValueError:
             self.voter_list.setText('')
             self.exception_label.setText("Please ensure that you typed\na space between each name.")
@@ -232,16 +235,15 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.user_input.clear()
         self.user_input.setFocus()
 
+
     def save_votes(self) -> None:
         """
         This function ensures that the votes are saved to the correct file.
         """
-        filename = "blank.txt"
-        poll_dictionary = {}
         if self.holiday_button.isChecked():
             filename = Logic.HOLIDAY_FILE
             poll_dictionary = self.holiday_votes_dictionary
-        elif self.season_button.isChecked():
+        if self.season_button.isChecked():
             filename = Logic.SEASON_FILE
             poll_dictionary = self.season_votes_dictionary
         try:
@@ -259,6 +261,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         except Exception as e:
             print(f"Error saving votes: {e}")
 
+
     def determine_outcome(self) -> str:
         """
         This checks the values of the keys in the appropriate dictionary and
@@ -275,6 +278,7 @@ class Logic(QMainWindow, Ui_MainWindow):
             poll_dictionary = self.season_votes_dictionary
 
         for key, votes in poll_dictionary.items():
+            print(f'key {key}, votes {votes}')
             if key != 'ballots':
                 if votes > potential_winning_score:
                     potential_winner = key
@@ -289,10 +293,12 @@ class Logic(QMainWindow, Ui_MainWindow):
             outcome = potential_winner
         return outcome
 
+
+    # TODO Maybe we need to make sure every line is less than 81 characters long?
     def results(self) -> None:
         """
-        This function displays the votes each candidate, the votes they have
-        have accrued, and the outcome of the vote so far to the user.
+        This function displays each candidate, the votes they have accrued, and
+        the current state of the poll.
         :return: This returns nothing and may return None early if the user
         doesn't choose a poll.
         """
@@ -328,24 +334,34 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.user_input.setFocus()
         self.exception_label.setText("")
 
+
     def load_votes(self) -> None:
         """
-        This loads the votes stored in files into the appropriate dictionary.
+        This populates the dictionaries with the information in the csv files.
         """
-        filename = "blank.txt"
+        filename = ''
         poll_dictionary = {}
         if self.holiday_button.isChecked():
-            # filename = self.holiday_file
+            filename = Logic.HOLIDAY_FILE
             poll_dictionary = self.holiday_votes_dictionary
         elif self.season_button.isChecked():
-            # filename = self.season_file
+            filename = Logic.SEASON_FILE
             poll_dictionary = self.season_votes_dictionary
         try:
             if os.path.exists(filename):
                 with open(filename, "r") as file:
-                    for line in file:
-                        option, count = line.strip().split(":")
-                        poll_dictionary[option] = int(count)
+                    csv_reader = reader(file, delimiter=',')
+                    candidate_list = ['Halloween', 'Christmas', 'Summer', 'Winter']
+                    for line in csv_reader:
+                        if line[0] in candidate_list:
+                            poll_dictionary[line[0]] = int(line[1])
+                        else:
+                            poll_dictionary['ballots'][line[0]] = line[1]
+                    print(poll_dictionary)
+
+                    # fqr line in file:
+                    #     option, count = line.strip().split(":")
+                    #     poll_dictionary[option] = int(count)
         except Exception as e:
             print(f"Error loading votes: {e}")
 
