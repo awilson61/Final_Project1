@@ -6,7 +6,6 @@ from re import *
 from csv import *
 #TODO make sure data is saved once application is closed. (def save and def load)
 
-
 class Logic(QMainWindow, Ui_MainWindow):
     BLANK_HOLIDAY_DICTIONARY = {'Halloween': 0, 'Christmas': 0, 'ballots': {}}
     BLANK_SEASON_DICTIONARY = {'Summer': 0, 'Winter': 0, 'ballots': {}}
