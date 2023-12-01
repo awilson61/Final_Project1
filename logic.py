@@ -4,20 +4,13 @@ import os
 from PyQt6.QtGui import QPixmap
 from re import *
 from csv import *
-
+#TODO make sure data is saved once application is closed. (def save and def load)
 
 class Logic(QMainWindow, Ui_MainWindow):
     BLANK_HOLIDAY_DICTIONARY = {'Halloween': 0, 'Christmas': 0, 'ballots': {}}
     BLANK_SEASON_DICTIONARY = {'Summer': 0, 'Winter': 0, 'ballots': {}}
-    # These files allow the votes to be stored while the program isn't running.
-
-    # TODO Delete these
-    # self.holiday_file = 'holiday_votes.csv'
-    # self.season_file = 'season_votes.csv'
-
     HOLIDAY_FILE = 'holiday_votes.csv'
     SEASON_FILE = 'season_votes.csv'
-
     def __init__(self) -> None:
         """
         This method initializes the appearance of the voting menu, the
@@ -37,7 +30,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.summer_button.hide()
         self.christmas_button.hide()
         self.halloween_button.hide()
-
         # These determine what happens when buttons are clicked.
         self.user_input.hide()
         self.vote_button.hide()
@@ -50,11 +42,9 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.results_button.clicked.connect(lambda: self.results())
         self.holiday_button.clicked.connect(lambda: self.holiday_poll())
         self.season_button.clicked.connect(lambda: self.seasons_poll())
-
         # These dictionaries store the votes while the program is running.
         self.holiday_votes_dictionary = {'Halloween': 0, 'Christmas': 0, 'ballots': {}}
         self.season_votes_dictionary = {'Summer': 0, 'Winter': 0, 'ballots': {}}
-
         # Creating Button Group
         self.button_group = QButtonGroup()
         self.button_group.addButton(self.halloween_button)
@@ -111,13 +101,11 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.load_votes()
         self.when_poll_changes()
 
-
     def seasons_poll(self) -> None:
         """
         This function changes the UI to permit voting for seasons.
         """
         self.title_label.setText(self.TITLE + 'Summer or Winter')
-
         self.results_label.setText('')
         self.exception_label.setText("")
         self.halloween_image.hide()
@@ -132,20 +120,13 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.load_votes()
         self.when_poll_changes()
 
-
-
     def clear(self) -> None:
         """
         This function ensures that the dictionaries and the vote files are reset.
         """
-        # TODO Not sure if we need this: self.when_poll_changes()
         try:
             self.holiday_votes_dictionary = Logic.BLANK_HOLIDAY_DICTIONARY
             self.season_votes_dictionary = Logic.BLANK_SEASON_DICTIONARY
-            # TODO ensure that the csv files are cleared with this.
-            #open(self.season_file, "w").close()
-            #open(self.holiday_file, "w").close()
-            #TODO does this work below?
             self.season_votes_dictionary = {'Summer': 0, 'Winter': 0, 'ballots': {}}
             self.holiday_votes_dictionary = {'Halloween': 0, 'Christmas': 0, 'ballots': {}}
             self.exception_label.setText('')
@@ -154,7 +135,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.results_label.setText('')
         self.voter_list.setText('')
         self.user_input.setFocus()
-
 
     def get_selected_radio_button_text(self) -> str:
         """
@@ -174,6 +154,11 @@ class Logic(QMainWindow, Ui_MainWindow):
             return ""
 
     def prepare_voter_name(self, name: str) -> str:
+        """
+        This purpose is used to get rid of any special characters in the input box.
+        :param name: The name that the person enters.
+        :return: A person's name without special characters.
+        """
         reg_expression = r'[^a-zA-Z0-9\s]'
         name_without_special_characters = sub(reg_expression, '', name)
         return name_without_special_characters
@@ -197,7 +182,6 @@ class Logic(QMainWindow, Ui_MainWindow):
             prepared_voter_name = self.prepare_voter_name(user_input_text)
             voter_name_key = prepared_voter_name
             choice = self.get_selected_radio_button_text()
-
             if poll_dictionary['ballots'].get(voter_name_key, "Has not voted") == "Has not voted":
                 self.exception_label.setText('')
                 poll_dictionary[choice] += 1
@@ -206,27 +190,18 @@ class Logic(QMainWindow, Ui_MainWindow):
 
             else:
                 self.exception_label.setText("You have already voted.")
-
             self.clear_radio_button()
             self.save_votes()
             self.user_input.clear()
             self.voter_list.clear()
             self.results_label.setText('')
-
-
         except ValueError:
             self.voter_list.setText('')
             self.exception_label.setText("Please ensure that you typed\na space between each name.")
             self.user_input.clear()
         except:
-            #TODO the line below would be the easy solution to do.
             self.voter_list.setText('')
             self.exception_label.setText("Please select any of the items to vote!")
-            #TODO Theres a lgoical error in these lines of code when the exception occurs.
-            #if self.holiday_button.setChecked(True):
-                #self.exception_label.setText("Please choose a holiday.")
-            #elif self.season_button.setChecked(True):
-                #self.exception_label.setText("Please choose a season.")
             self.user_input.clear()
         self.results_label.setText('')
         self.user_input.clear()
@@ -273,7 +248,6 @@ class Logic(QMainWindow, Ui_MainWindow):
             poll_dictionary = self.holiday_votes_dictionary
         elif self.season_button.isChecked():
             poll_dictionary = self.season_votes_dictionary
-
         for key, votes in poll_dictionary.items():
             if key != 'ballots':
                 if votes > potential_winning_score:
@@ -291,7 +265,7 @@ class Logic(QMainWindow, Ui_MainWindow):
 
     def results(self) -> None:
         """
-        This function displays the votes each candidate, the votes they have
+        This function displays the votes each candidate, the votes they
         have accrued, and the outcome of the vote so far to the user.
         :return: This returns nothing and may return None early if the user
         doesn't choose a poll.
@@ -311,10 +285,8 @@ class Logic(QMainWindow, Ui_MainWindow):
         if self.holiday_button.isChecked() or self.season_button.isChecked():
             for key, votes in poll_dictionary.items():
                 if key == 'ballots':
-                    # Separate each ballot on a new line
                     voter_text += '\n'.join([f'{voter}: {vote}' for voter, vote in votes.items()])
                 else:
-                    # Replace " votes" with an empty string
                     results_text += f'{key} has {votes}.\n'
             if outcome == 'Tie':
                 results_text += "It's a tie!"
@@ -322,7 +294,6 @@ class Logic(QMainWindow, Ui_MainWindow):
                 results_text += f'{outcome} wins!'
         self.results_label.setText(results_text)
         self.voter_list.setText(voter_text)
-
         print("votes: ", poll_dictionary)
         self.user_input.setText('')
         self.user_input.setFocus()
@@ -348,5 +319,3 @@ class Logic(QMainWindow, Ui_MainWindow):
                         poll_dictionary[option] = int(count)
         except Exception as e:
             print(f"Error loading votes: {e}")
-
-
