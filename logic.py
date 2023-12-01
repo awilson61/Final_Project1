@@ -56,7 +56,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.button_group.addButton(self.summer_button)
         self.button_group.addButton(self.winter_button)
 
-
     def clear_radio_button(self) -> None:
         """
         This function clears the radio buttons when you switch to another
@@ -68,7 +67,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.summer_button.setChecked(False)
         self.winter_button.setChecked(False)
         self.button_group.setExclusive(True)
-
 
     def when_poll_changes(self) -> None:
         """
@@ -88,7 +86,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.voter_list.clear()
         self.load_votes()
 
-
     def holiday_poll(self) -> None:
         """
         This function changes the UI to permit voting for holidays.
@@ -107,7 +104,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.clear_radio_button()
         self.load_votes()
         self.when_poll_changes()
-
 
     def seasons_poll(self) -> None:
         """
@@ -129,12 +125,10 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.load_votes()
         self.when_poll_changes()
 
-
     def clear(self) -> None:
         """
         This function ensures that the dictionaries and the vote files are reset.
         """
-        # TODO Not sure if we need this: self.when_poll_changes()
         try:
             self.holiday_votes_dictionary = {'Halloween': 0, 'Christmas': 0, 'ballots': {}}
             self.season_votes_dictionary = {'Summer': 0, 'Winter': 0, 'ballots': {}}
@@ -146,7 +140,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.results_label.setText('')
         self.voter_list.setText('')
         self.user_input.setFocus()
-
 
     def get_selected_radio_button_text(self) -> str:
         """
@@ -165,15 +158,16 @@ class Logic(QMainWindow, Ui_MainWindow):
         else:
             return ""
 
-
     def prepare_voter_name(self, name: str) -> str:
+        """
+        This function is used to remove any special characters from a name.
+        :param name: The name a user enters in input box.
+        :return: The name a user enters without any special characters.
+        """
         stripped_name = name.strip()
-
         reg_expression = r'[^a-zA-Z0-9\s]'
         name_without_special_characters = sub(reg_expression, '', stripped_name)
-
         return name_without_special_characters
-
 
     def vote(self) -> None:
         """
@@ -190,9 +184,6 @@ class Logic(QMainWindow, Ui_MainWindow):
             user_input_text = self.user_input.text()
             if len(user_input_text.split()) < 2:
                 raise ValueError
-
-            # TODO Do I still need this line.
-            # self.exception_label.setText('')
 
             prepared_voter_name = self.prepare_voter_name(user_input_text)
             voter_name_key = prepared_voter_name
@@ -214,7 +205,6 @@ class Logic(QMainWindow, Ui_MainWindow):
             self.user_input.clear()
         except:
             self.voter_list.setText('')
-            # self.exception_label.setText("Please select any of the items to vote!")
             if self.holiday_button.isChecked() == True:
                 self.exception_label.setText("Please choose a holiday.")
             elif self.season_button.isChecked() == True:
@@ -223,7 +213,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.results_label.setText('')
         self.user_input.clear()
         self.user_input.setFocus()
-
 
     def save_votes(self) -> None:
         """
@@ -250,7 +239,6 @@ class Logic(QMainWindow, Ui_MainWindow):
                 csv_writer.writerows(list_to_write)
         except Exception as e:
             print(f"Error saving votes: {e}")
-
 
     def determine_outcome(self) -> str:
         """
@@ -281,7 +269,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         else:
             outcome = potential_winner
         return outcome
-
 
     # TODO Maybe we need to make sure every line is less than 81 characters long?
     def results(self) -> None:
@@ -321,7 +308,6 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.user_input.setFocus()
         self.exception_label.setText("")
 
-
     def load_votes(self) -> None:
         """
         This populates the dictionaries with the information in the csv files.
@@ -350,5 +336,3 @@ class Logic(QMainWindow, Ui_MainWindow):
                     #     poll_dictionary[option] = int(count)
         except Exception as e:
             print(f"Error loading votes: {e}")
-
-
