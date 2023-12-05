@@ -165,8 +165,8 @@ class Logic(QMainWindow, Ui_MainWindow):
         :return: The name a user enters without any special characters.
         """
         stripped_name = name.strip()
+        # This ensures that an exception is raised if numbers are part of the voter's name.
         result = search(r"[0-9]", stripped_name)
-        print(result)
         if (result != None):
             raise ValueError
         regex_pattern = r"[^a-zA-Z0-9\s'-]+"
