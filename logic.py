@@ -165,9 +165,10 @@ class Logic(QMainWindow, Ui_MainWindow):
         :return: The name a user enters without any special characters.
         """
         stripped_name = name.strip()
-        reg_expression = r'[^a-zA-Z0-9\s]'
-        name_without_special_characters = sub(reg_expression, '', stripped_name)
-        return name_without_special_characters
+        regex_pattern = r"[^a-zA-Z0-9\s'-]+"
+        name_with_permitted_characters = sub(regex_pattern, '', stripped_name)
+        name_without_excess_spaces = sub(r'\s+', ' ', name_with_permitted_characters)
+        return name_without_excess_spaces
 
     def vote(self) -> None:
         """
@@ -203,8 +204,9 @@ class Logic(QMainWindow, Ui_MainWindow):
             self.voter_list.setText('')
             self.exception_label.setText("Please ensure that you typed\na space between each name.")
             self.user_input.clear()
-        except:
+        except Exception as e:
             self.voter_list.setText('')
+            print(e)
             if self.holiday_button.isChecked() == True:
                 self.exception_label.setText("Please choose a holiday.")
             elif self.season_button.isChecked() == True:
